@@ -238,7 +238,7 @@ Légy te is részese az évek óta rendíthetetlen, élményekkel teli közöss�
     <span class="close-button" onclick="toggleMenu()">✖</span>
   </div>
 
-  <a href="Főoldal.html">Főoldal</a>
+  <a href="Főoldal.html.html">Főoldal</a>
   <a href="Segítség.html">Segítség</a>
   <a href="bejelentkezes.html">Bejelentkezes</a>
   <a href="register.html" class="register">Regisztráció</a>
