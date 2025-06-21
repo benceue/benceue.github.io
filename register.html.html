@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>KB AppPortál</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+    header {
+      background-color: #111;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    h2 {
+      margin-top: 40px;
+      border-bottom: 1px solid #444;
+      padding-bottom: 5px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 5px;
+      background-color: #222;
+      color: white;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .downloads {
+      margin-top: 20px;
+    }
+
+    .downloads a {
+      display: inline-block;
+      margin: 5px;
+      padding: 10px;
+      background-color: #333;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .cookie-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #111;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      flex-wrap: wrap;
+    }
+
+    .cookie-banner p {
+      margin: 0;
+      flex: 1 1 300px;
+    }
+
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .cookie-buttons button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .accept {
+      background-color: #4caf50;
+    }
+
+    .reject {
+      background-color: #f44336;
+    }
+
+    #regisztracioUzenet {
+      margin-top: 20px;
+      color: lightgreen;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <header>KB</header>
+
+  <div class="container">
+    <h2>Regisztráció</h2>
+    <form id="registrationForm">
+      <div class="form-group">
+        <label for="name">Név:</label>
+        <input type="text" id="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Jelszó:</label>
+        <input type="password" id="password" required>
+      </div>
+      <button type="submit">Regisztrálok</button>
+    </form>
+
+    <div id="regisztracioUzenet"></div>
+
+    <h2>Letölthető Appok</h2>
+    <div class="downloads">
+      <a href="#">IgamMc</a>
+    </div>
+
+    <h2>Játékok</h2>
+    <div class="downloads">
+      <a href="#">Kingdoms</a>
+      <a href="#">Kitpvp</a>
+    </div>
+  </div>
+
+  <div class="cookie-banner" id="cookieBanner">
+    <p>
+      Ez a weboldal cookie-kat használ a felhasználói élmény javítása érdekében. A sütik segítségével statisztikákat gyűjtünk és személyre szabott tartalmakat jelenítünk meg. Az "Elfogadom" gombra kattintva hozzájárulsz az összes süti használatához. Az "Elutasítom" gombra kattintva csak a szükséges sütiket használjuk.
+    </p>
+    <div class="cookie-buttons">
+      <button class="accept" onclick="handleCookie(true)">Elfogadom</button>
+      <button class="reject" onclick="handleCookie(false)">Elutasítom</button>
+    </div>
+  </div>
+
+  <script>
+    // Cookie banner kezelés
+    function setCookie(name, value, days) {
+      const d = new Date();
+      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+      const expires = "expires=" + d.toUTCString();
+      document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+
+    function getCookie(name) {
+      const cname = name + "=";
+      const decodedCookie = decodeURIComponent(document.cookie);
+      const ca = decodedCookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(cname) == 0) {
+          return c.substring(cname.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    function handleCookie(accepted) {
+      setCookie("cookiesAccepted", accepted, 365);
+      document.getElementById('cookieBanner').style.display = 'none';
+    }
+
+    window.onload = function () {
+      const choice = getCookie("cookiesAccepted");
+      if (choice !== "") {
+        document.getElementById('cookieBanner').style.display = 'none';
+      }
+    };
+
+    // Regisztráció kezelése
+    document.getElementById("registrationForm").addEventListener("submit", function(e) {
+      e.preventDefault(); // Ne töltse újra az oldalt
+      const nev = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+
+      const uzenet = `✅ Új regisztráció: ${nev} (${email})`;
+      document.getElementById("regisztracioUzenet").textContent = uzenet;
+
+      // Mezők ürítése
+      this.reset();
+    });
+  </script>
+
+<a href="Főoldal.html">Vissza</a>
+</body>
+</html>
+
